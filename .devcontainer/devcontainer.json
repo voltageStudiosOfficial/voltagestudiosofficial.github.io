@@ -1,0 +1,18 @@
+{
+	"name": "Zola dev container",
+	"image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+	"forwardPorts": [
+		1111
+	],
+	"portsAttributes": {
+		"1111": {
+			"label": "zola"
+		}
+	},
+	"postCreateCommand": "wget https://github.com/getzola/zola/releases/download/v0.19.1/zola-v0.19.1-x86_64-unknown-linux-gnu.tar.gz -O zola.tar.gz && tar -xzf zola.tar.gz && sudo mv zola /usr/local/bin/ && rm zola.tar.gz && git submodule update --init --recursive",
+	"customizations": {
+		"vscode": {
+			"extensions": []
+		}
+	}
+}
