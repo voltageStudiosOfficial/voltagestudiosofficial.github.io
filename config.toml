@@ -18,3 +18,6 @@ highlight_code = false
 [extra]
 accent_color = "ff0000"
 styles = ["custom.css"]
+nav.links = [
+    {name = "About", url = "/about" },
+]
