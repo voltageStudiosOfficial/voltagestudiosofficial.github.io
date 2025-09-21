@@ -1,0 +1,46 @@
+name: Build and Deploy Zola Site
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Zola
+        run: |
+          curl -sL https://github.com/getzola/zola/releases/latest/download/zola-v0.17.2-x86_64-unknown-linux-gnu.tar.gz | tar xz
+          sudo mv zola /usr/local/bin/zola
+
+      - name: Build site
+        run: zola build
+
+      - name: Upload site artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: zola-site
+          path: public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Download site artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: zola-site
+          path: public
+
+      # Example: Deploy to GitHub Pages (can be customized)
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
