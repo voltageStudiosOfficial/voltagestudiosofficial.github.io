@@ -6,9 +6,9 @@ on:
       - master
   pull_request:
 permissions:
-  id-token: write
-  contents: read
+  contents: write
   pages: write
+  id-token: write
 
 jobs:
   build:
