@@ -30,19 +30,12 @@ jobs:
           path: public
 
   deploy:
-    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    needs: build
     steps:
-      - name: Download site artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: zola-site
-          path: public
-
-      # Example: Deploy to GitHub Pages (can be customized)
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
+        id: deployment
+        uses: actions/deploy-pages@v4
